@@ -21,7 +21,7 @@
 
             {% if error_message %}
             <div class="task-error alert alert-danger" role="alert">
-                <p>Une erreur est survenur : <strong>{{ error_message }}</strong></p>
+                <p>Une erreur est survenue : <strong>{{ error_message }}</strong></p>
             </div>
             {% endif %}
 
@@ -51,8 +51,7 @@
                     </div>
                     {% if not task.is_done %}
                     <div class="item-actions">
-                        <form action={% url
-                        'todo:index' %} method="post" class="d-flex">
+                        <form action={% url 'todo:index' %} method="post" class="d-flex">
                         {% csrf_token %}
                         <input type="hidden" name="task-id" value={{ task.id }}>
                         <button id="task-done" class="btn btn-sm btn-primary d-flex mx-1" name="task-done"
