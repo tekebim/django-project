@@ -9,13 +9,6 @@
 <body>
 <div class="form-group">
     <h1>To-Do <small>List</small></h1>
-
-    <ul>
-        {% for task in tasks %}
-        <li>{{ task.content }}</li>
-        {% endfor %}
-    </ul>
-
     <!-- des choses a ajouter ici -->
 
 </div>
@@ -24,7 +17,9 @@
 
 <ul class="list-unstyled" id="todo">
     <!-- des choses a ajouter ici -->
-
+    {% for task in tasks %}
+    <li>{{ task.content }}</li>
+    {% endfor %}
 </ul>
 
 </body>

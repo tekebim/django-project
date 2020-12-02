@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import loader
 from .models import Task
 
@@ -9,5 +9,9 @@ def index(request):
     context = {'tasks': tasks}
     return render(request, 'todo/index.html', context)
 
-def edit(request):
-    return HttpResponse("Edit")
+def edit(request, task_id):
+    try:
+        task = Task.objects.get(id=task_id)
+    except Task.DoesNotExist:
+        raise Http404("Task does not exist")
+    return render(request, 'todo/edit.html', {'task': task})
