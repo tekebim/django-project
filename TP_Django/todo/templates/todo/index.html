@@ -20,7 +20,7 @@
     {% for task in tasks %}
     <li>
         {{ task.content }}
-        <a href="/todo/edit/{{task.id}}">Edit</a>
+        <a href="{% url 'todo:edit' task.id %}">Edit v2</a>
     </li>
     {% endfor %}
 </ul>
