@@ -18,7 +18,10 @@
 <ul class="list-unstyled" id="todo">
     <!-- des choses a ajouter ici -->
     {% for task in tasks %}
-    <li>{{ task.content }}</li>
+    <li>
+        {{ task.content }}
+        <a href="/todo/edit/{{task.id}}">Edit</a>
+    </li>
     {% endfor %}
 </ul>
 
