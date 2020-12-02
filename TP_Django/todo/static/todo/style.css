@@ -1,56 +1,37 @@
-body{
-  font-family: Purisa, sans-serif;
+body {
+    background-color: lightseagreen;
+    font-family: Karla;
 }
 
-.form-group {
-    text-align: center;
-    padding-bottom: 25px;
+.heading h1 {
+    font-family: Rubik;
 }
 
-#todo {
-    margin: 0 auto;
-    width: 500px;
-
+.todo-wrapper {
+    background: white;
+    max-width: 767px;
 }
 
-#todo ul{
-  border-bottom:1px solid black;
-  padding:5px;
-  margin:2px;
+.todo-wrapper a {
+    display: block;
+    color: #555555;
+    font-weight: bold;
+    height: 30px;
+    text-decoration: none;
+    width: 100%;
 }
-
-a {
-  display:block;
-  color:#555555;
-  font-weight:bold;
-  height:30px;
-  text-decoration:none;
-  width:100%;
-}
-
-.task-done{
-  text-decoration: line-through;
-}
-
-.delete {
-	background:url(./delete.gif) no-repeat 10px 8px;
-	text-indent:30px;
-	display:block;
-}
-
-.done {
-	background:url(./done.png) no-repeat 10px 8px;
-	text-indent:30px;
-	display:block;
-}
-
-
-/* CUSTOM */
 
 .task__item {
-    border-bottom:1px solid black;
+    border-bottom: 1px solid lightgray;
 }
 
 .task--done {
     text-decoration: line-through;
+}
+
+.item__check {
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

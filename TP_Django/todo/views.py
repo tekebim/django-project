@@ -30,6 +30,7 @@ def index(request):
             todo = Task.objects.get(id=int(task_id))
             # Delete todo
             todo.delete()
+            return redirect('/todo/')
         # Checking if there is a request to add a todo
         if "task-done" in request.POST:
             # Get the content
@@ -40,6 +41,7 @@ def index(request):
             todo.is_done = True
             # Save the todo
             todo.save()
+            return redirect('/todo/')
 
     return render(request, 'todo/index.html', {'tasks': tasks})
 
