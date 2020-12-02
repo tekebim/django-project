@@ -65,6 +65,25 @@
                 {% endfor %}
             </ul>
 
+
+
+            {% if tasks %}
+            <div class="actions d-flex">
+                {% for task in tasks %}
+                    {% if task.is_done %}
+                        <a href={% url 'todo:deleteDone' %} class="btn btn-sm btn-primary d-flex mx-1 align-items-center" formnovalidate=""
+                        type="submit">
+                        Clear tasks done
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                <a href={% url 'todo:deleteAll' %} class="btn btn-sm btn-danger d-flex mx-1 align-items-center" formnovalidate=""
+                type="submit">
+                Delete all tasks
+                </a>
+            </div>
+            {% endif %}
+
         </div>
     </div>
 </main>

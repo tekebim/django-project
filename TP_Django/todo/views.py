@@ -27,21 +27,19 @@ def index(request):
     return render(request, 'todo/index.html', {'tasks': tasks})
 
 def edit(request, task_id):
-    # task = get_object_or_404(Task, id=task_id)
-    try:
-        task = Task.objects.get(id=task_id)
-        # if this is a POST request we need to process the form data
-        if request.method == "POST":
-            # create a form instance and populate it with data from the request:
-            form = EditTaskForm(request.POST)
-            # check whether it's valid:
-            if form.is_valid():
-                todo = form.save(commit=False)
-                todo.save()
-        else :
-            form = EditTaskForm()
-    except Task.DoesNotExist:
-        raise Http404("Task does not exist")
+    task = get_object_or_404(Task, id=task_id)
+    # if this is a POST request we need to process the form data
+    if request.method == "POST":
+        # create a form instance and populate it with data from the request:
+        form = EditTaskForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            form.cleaned_data
+            todo = form.save(commit=False)
+            todo.save()
+    else :
+        form = EditTaskForm(initial={'content': task.content, 'is_done': task.is_done})
+
     return render(request, 'todo/edit.html', {'task': task, 'form': form})
 
 def delete(request, task_id):
@@ -53,6 +51,17 @@ def delete(request, task_id):
     # Redirect to the index
     return redirect('todo:index')
 
+def deleteAll(request):
+    tasks = Task.objects.all()
+    tasks.delete()
+    # Redirect to the index
+    return redirect('todo:index')
+
+def deleteDone(request):
+    tasks = Task.objects.filter(is_done=True)
+    tasks.delete()
+    # Redirect to the index
+    return redirect('todo:index')
 
 def finish(request, task_id):
     task = get_object_or_404(Task, id=task_id)

@@ -30,6 +30,10 @@
                 <form method="POST" class="post-form">
                     {% csrf_token %}
                     {{ form.as_p }}
+                    <a href={% url 'todo:index' %} class="btn btn-sm btn-secondary" name="task-delete" formnovalidate=""
+                    type="submit">
+                    Cancel
+                    </a>
                     <button type="submit" class="btn btn-primary btn-md">Save</button>
                 </form>
             </div>
