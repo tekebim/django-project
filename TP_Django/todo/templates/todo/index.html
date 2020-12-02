@@ -2,25 +2,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="utf-8">
-        <title>Todo Application</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
+    <meta charset="utf-8">
+    <title>Todo Application</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
 </head>
 <body>
-    <div class="form-group">
-      <h1>To-Do <small>List</small></h1>
+<div class="form-group">
+    <h1>To-Do <small>List</small></h1>
 
-
-      <!-- des choses a ajouter ici -->
-
-    </div>
-
-    <div></div>
-
-    <ul class="list-unstyled" id="todo">
-      <!-- des choses a ajouter ici -->
-
+    <ul>
+        {% for task in tasks %}
+        <li>{{ task.content }}</li>
+        {% endfor %}
     </ul>
+
+    <!-- des choses a ajouter ici -->
+
+</div>
+
+<div></div>
+
+<ul class="list-unstyled" id="todo">
+    <!-- des choses a ajouter ici -->
+
+</ul>
 
 </body>
 </html>
