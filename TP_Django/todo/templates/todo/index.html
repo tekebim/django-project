@@ -9,7 +9,15 @@
 <body>
 <div class="form-group">
     <h1>To-Do <small>List</small></h1>
-    <!-- des choses a ajouter ici -->
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="#" method="post">
+        {% csrf_token %}
+        <label for="task-content">Task Content :</label>
+        <input type="text" name="task-content" id="task-content" value="">
+        <input type="submit" value="Add task">
+    </form>
 
 </div>
 
@@ -18,9 +26,22 @@
 <ul class="list-unstyled" id="todo">
     <!-- des choses a ajouter ici -->
     {% for task in tasks %}
-    <li>
-        {{ task.content }}
-        <a href="{% url 'todo:edit' task.id %}">Edit v2</a>
+    <li class='task__item {{task.is_done|yesno:"task--done,"}}'>
+        <a href="{% url 'todo:edit' task.id %}">
+            {{ task.content }}
+        </a>
+        {% if not task.is_done %}
+        <div class="item-actions">
+            <a href="#" class="action--done">
+                <img src={% static 'todo/done.png' %} alt="done">
+                Done
+            </a>
+            <a href="#" class="action--delete">
+                <img src={% static 'todo/delete.gif' %} alt="delete">
+                Delete
+            </a>
+        </div>
+        {% endif %}
     </li>
     {% endfor %}
 </ul>

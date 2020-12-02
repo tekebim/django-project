@@ -15,3 +15,6 @@ def edit(request, task_id):
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
     return render(request, 'todo/edit.html', {'task': task})
+
+def add(request):
+    return render(request, 'todo/index.html', {})

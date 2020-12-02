@@ -43,3 +43,14 @@ a {
 	text-indent:30px;
 	display:block;
 }
+
+
+/* CUSTOM */
+
+.task__item {
+    border-bottom:1px solid black;
+}
+
+.task--done {
+    text-decoration: line-through;
+}
