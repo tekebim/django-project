@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
@@ -23,26 +23,6 @@ def index(request):
             todo.save()
             # Reload the page
             return redirect('todo:index')
-        # Checking if there is a request to add a todo
-        if "task-delete" in request.POST:
-            # Get the content
-            task_id = request.POST["task-id"]
-            # Get todo id
-            todo = Task.objects.get(id=int(task_id))
-            # Delete todo
-            todo.delete()
-            return redirect('todo:index')
-        # Checking if there is a request to add a todo
-        if "task-done" in request.POST:
-            # Get the content
-            task_id = request.POST["task-id"]
-            # Get todo id
-            todo = Task.objects.get(id=int(task_id))
-            # Update field : is_done
-            todo.is_done = True
-            # Save the todo
-            todo.save()
-            return redirect('todo:index')
 
     return render(request, 'todo/index.html', {'tasks': tasks})
 
@@ -63,3 +43,22 @@ def edit(request, task_id):
     except Task.DoesNotExist:
         raise Http404("Task does not exist")
     return render(request, 'todo/edit.html', {'task': task, 'form': form})
+
+def delete(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    # Get todo id
+    todo = Task.objects.get(id=int(task_id))
+    # Delete todo
+    todo.delete()
+    # Redirect to the index
+    return redirect('todo:index')
+
+
+def finish(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    # Update field : is_done
+    task.is_done = True
+    # Save the todo
+    task.save()
+    # Redirect to the index
+    return redirect('todo:index')
