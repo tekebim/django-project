@@ -32,14 +32,27 @@
         </a>
         {% if not task.is_done %}
         <div class="item-actions">
+            <form action={% url 'todo:index' %} method="post">
+                {% csrf_token %}
+                <input type="hidden" name="task-id" value={{ task.id }}>
+                <button id="task-done" name="task-done" type="submit">
+                    <img src={% static 'todo/done.png' %} alt="done"> Done
+                </button>
+                <button class="task-delete" name="task-delete" formnovalidate="" type="submit">
+                    <img src={% static 'todo/delete.gif' %} alt="delete"> Delete
+                </button>
+            </form>
+            <!--
             <a href="#" class="action--done">
                 <img src={% static 'todo/done.png' %} alt="done">
                 Done
             </a>
+
             <a href="#" class="action--delete">
                 <img src={% static 'todo/delete.gif' %} alt="delete">
                 Delete
             </a>
+            -->
         </div>
         {% endif %}
     </li>

@@ -3,7 +3,6 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
 from .models import Task
-from .forms import TaskForm
 
 def index(request):
     # Query all tasks
@@ -18,11 +17,29 @@ def index(request):
             # Get the content
             content = request.POST["task-content"]
             # Init the todo
-            Todo = Task(content=content, is_done=False)
+            todo = Task(content=content, is_done=False)
             # Save the todo
-            Todo.save()
+            todo.save()
             # Reload the page
             return redirect('/todo/')
+        # Checking if there is a request to add a todo
+        if "task-delete" in request.POST:
+            # Get the content
+            task_id = request.POST["task-id"]
+            # Get todo id
+            todo = Task.objects.get(id=int(task_id))
+            # Delete todo
+            todo.delete()
+        # Checking if there is a request to add a todo
+        if "task-done" in request.POST:
+            # Get the content
+            task_id = request.POST["task-id"]
+            # Get todo id
+            todo = Task.objects.get(id=int(task_id))
+            # Update field : is_done
+            todo.is_done = True
+            # Save the todo
+            todo.save()
 
     return render(request, 'todo/index.html', {'tasks': tasks})
 
