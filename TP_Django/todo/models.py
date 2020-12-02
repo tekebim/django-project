@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+class Task(models.Model):
+    id = models.AutoField(primary_key=True)
+    content = models.CharField(max_length=200)
+    is_done = models.BooleanField()
+    create_date = models.DateField(auto_now_add=True)
+    pub_date = models.DateTimeField('date published')

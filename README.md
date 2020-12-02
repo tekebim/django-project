@@ -74,3 +74,60 @@ Check if route is working :
 ```
 http://127.0.0.1:8000/todo/
 ```
+
+# Database configuration
+File : `TD_Django/settings.py`
+
+Default values with SQLite 3 :
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
+Could be configure with another database type :
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mydatabase',
+        'USER': 'mydatabaseuser',
+        'PASSWORD': 'mypassword',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+```
+More details [here](https://docs.djangoproject.com/fr/3.1/intro/tutorial02/). 
+
+# Execute database migration
+
+```python manage.py migrate```
+> The migrate command looks at the INSTALLED_APPS setting and creates any necessary database tables according to the database settings in your TP_Django/settings.py file and the database migrations shipped with the app (we’ll cover those later). You’ll see a message for each migration it applies. If you’re interested, run the command-line client for your database and type \dt (PostgreSQL), SHOW TABLES; (MariaDB, MySQL), .schema (SQLite), or SELECT TABLE_NAME FROM USER_TABLES; (Oracle) to display the tables Django created.
+
+# Activating models
+
+`TP_DJANO/settings.py`
+```
+INSTALLED_APPS = [
+    'todo.apps.TodoConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+```
+Create a migration :
+```
+python manage.py makemigrations todo
+```
+Should return something like :
+```
+Migrations for 'todo':
+  todo/migrations/0001_initial.py
+    - Create model Task
+```
