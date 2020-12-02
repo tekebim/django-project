@@ -16,7 +16,7 @@
         <div class="todo-wrapper p-5 mx-auto my-5 shadow-lg rounded">
 
             <div class="heading text-center">
-                <h1>To-Do <small>List</small></h1>
+                <h1>To-Do List</h1>
             </div>
 
             {% if error_message %}
@@ -42,41 +42,41 @@
             <ul class="list-unstyled d-flex flex-column">
                 <!-- des choses a ajouter ici -->
                 {% for task in tasks %}
-                <li class='task__item {{task.is_done|yesno:"task--done,"}}'>
+                <li class='task__item d-flex {{task.is_done|yesno:"task--done,"}}'>
                     <div class="item__check d-flex">
                         <!--<input class="checkbox" type="checkbox">-->
                         <a href="{% url 'todo:edit' task.id %}">
-                            {{ task.content }}
+                            <p class="m0 p0">{{ task.content }}</p>
                         </a>
-                        {% if not task.is_done %}
-                        <div class="item-actions">
-                            <form action={% url
-                            'todo:index' %} method="post" class="d-flex">
-                            {% csrf_token %}
-                            <input type="hidden" name="task-id" value={{ task.id }}>
-                            <button id="task-done" class="btn btn-sm btn-primary d-flex mx-1" name="task-done"
-                                    type="submit">
-                                <img src={% static 'todo/done.png' %} alt="done" class="mr-1"> Done
-                            </button>
-                            <button class="btn btn-sm btn-danger d-flex mx-1" name="task-delete" formnovalidate=""
-                                    type="submit">
-                                <img src={% static 'todo/delete.gif' %} alt="delete" class="mr-1"> Delete
-                            </button>
-                            </form>
-                            <!--
-                            <a href="#" class="action--done">
-                                <img src={% static 'todo/done.png' %} alt="done">
-                                Done
-                            </a>
-
-                            <a href="#" class="action--delete">
-                                <img src={% static 'todo/delete.gif' %} alt="delete">
-                                Delete
-                            </a>
-                            -->
-                        </div>
-                        {% endif %}
                     </div>
+                    {% if not task.is_done %}
+                    <div class="item-actions">
+                        <form action={% url
+                        'todo:index' %} method="post" class="d-flex">
+                        {% csrf_token %}
+                        <input type="hidden" name="task-id" value={{ task.id }}>
+                        <button id="task-done" class="btn btn-sm btn-primary d-flex mx-1" name="task-done"
+                                type="submit">
+                            <img src={% static 'todo/done.png' %} alt="done" class="mr-1"> Done
+                        </button>
+                        <button class="btn btn-sm btn-danger d-flex mx-1" name="task-delete" formnovalidate=""
+                                type="submit">
+                            <img src={% static 'todo/delete.gif' %} alt="delete" class="mr-1"> Delete
+                        </button>
+                        </form>
+                        <!--
+                        <a href="#" class="action--done">
+                            <img src={% static 'todo/done.png' %} alt="done">
+                            Done
+                        </a>
+
+                        <a href="#" class="action--delete">
+                            <img src={% static 'todo/delete.gif' %} alt="delete">
+                            Delete
+                        </a>
+                        -->
+                    </div>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>

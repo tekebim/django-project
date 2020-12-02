@@ -2,16 +2,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-        <meta charset="utf-8">
-        <title>Edit Todo Application</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
+    <meta charset="utf-8">
+    <title>Edit Todo Application</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@200;300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/style.css' %}">
 </head>
 <body>
-    <div class="form-group">
-      <h1>To-Do <small>Edit</small></h1>
-      <!-- des choses a ajouter ici -->
+<main>
+    <div class="container">
+        <div class="todo-wrapper p-5 mx-auto my-5 shadow-lg rounded">
 
+            <div class="heading text-center">
+                <h1>Edit To-Do :</h1>
+            </div>
 
+            {% if error_message %}
+            <div class="task-error alert alert-danger" role="alert">
+                <p>Une erreur est survenur : <strong>{{ error_message }}</strong></p>
+            </div>
+            {% endif %}
+
+            <div class="add-form-wrapper my-5">
+                <p>ID : <strong>{{ task.id}}</strong></p>
+                <form method="POST" class="post-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary btn-md">Save</button>
+                </form>
+            </div>
+        </div>
     </div>
+</main>
 </body>
 </html>

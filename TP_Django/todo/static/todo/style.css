@@ -12,26 +12,28 @@ body {
     max-width: 767px;
 }
 
-.todo-wrapper a {
-    display: block;
-    color: #555555;
-    font-weight: bold;
-    height: 30px;
-    text-decoration: none;
-    width: 100%;
-}
-
 .task__item {
     border-bottom: 1px solid lightgray;
+    transition: all 0.3s ease-in;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.task__item:hover {
+    background-color: beige;
+}
+
+.task__item a {
+    color: black;
 }
 
 .task--done {
     text-decoration: line-through;
 }
 
-.item__check {
+.task__item .item__check {
     position: relative;
-    display: block;
     margin-top: 10px;
     margin-bottom: 10px;
+    align-items: center;
 }
