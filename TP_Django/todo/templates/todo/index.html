@@ -12,11 +12,11 @@
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="#" method="post">
+    <form action="{% url 'todo:index' %}" method="post">
         {% csrf_token %}
         <label for="task-content">Task Content :</label>
-        <input type="text" name="task-content" id="task-content" value="">
-        <input type="submit" value="Add task">
+        <input type="text" name="task-content" id="task-content" value={{ current_content}}>
+        <input type="submit" name="task-add" value="Add task">
     </form>
 
 </div>
