@@ -35,3 +35,42 @@ python manage.py startapp todo
 
 ##### Projects vs. apps
 > What’s the difference between a project and an app? An app is a Web application that does something – e.g., a Weblog system, a database of public records or a small poll app. A project is a collection of configuration and apps for a particular website. A project can contain multiple apps. An app can be in multiple projects.
+
+
+## Write a view
+
+Open the file todo/views.py
+```
+from django.http import HttpResponse
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the polls index.")
+```
+
+To create a URLconf in the polls directory, create a file called `urls.py
+```
+from django.urls import path
+
+from . import views`
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+```
+
+The next step is to point the root URLconf at the polls.urls module. In `TP_Django/urls.py`, add an import for django.urls.include and insert an include() in the urlpatterns list, so you have:
+
+```
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('todo/', include('todo.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
+Check if route is working :
+```
+http://127.0.0.1:8000/todo/
+```
