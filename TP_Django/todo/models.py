@@ -5,4 +5,3 @@ class Task(models.Model):
     content = models.CharField(max_length=200)
     is_done = models.BooleanField()
     create_date = models.DateField(auto_now_add=True)
-    pub_date = models.DateTimeField('date published')

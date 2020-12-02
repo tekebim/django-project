@@ -131,3 +131,20 @@ Migrations for 'todo':
   todo/migrations/0001_initial.py
     - Create model Task
 ```
+
+# Create a super user
+```
+python manage.py createsuperuser
+```
+
+# Let Task visible in admin panel
+`todo/admin.py`
+
+```
+from django.contrib import admin
+
+from .models import Task
+
+admin.site.register(Task)
+```
+
