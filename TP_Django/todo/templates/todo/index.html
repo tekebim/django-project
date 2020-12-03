@@ -19,27 +19,43 @@
                 <h1>To-Do List</h1>
             </div>
 
-            {% if error_message %}
-            <div class="task-error alert alert-danger" role="alert">
-                <p>Une erreur est survenue : <strong>{{ error_message }}</strong></p>
-            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="task-error alert alert-danger" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %}
+                    <div class="task-error alert alert-danger" role="alert">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                <div class="task-error alert alert-danger" role="alert">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+                {% endfor %}
             {% endif %}
 
             <div class="add-form-wrapper my-5">
-                <form action="{% url 'todo:index' %}" method="post" class="add-items">
+                <form method="POST" class="post-form add-items" >
                     {% csrf_token %}
                     <div class="form-heading">
-                        <label for="task-content" class="d-block">Task Content :</label>
+                        <label for="content" class="d-block">Task Content :</label>
                     </div>
                     <div class="form-fields d-flex">
-                        <input type="text" name="task-content" id="task-content" class="form-control"
-                               placeholder="What do you need to do today?">
+                        {{ form }}
                         <input type="submit" name="task-add" value="Add task" class="btn btn-primary task-btn-add ml-3">
                     </div>
                 </form>
             </div>
 
-            <ul class="list-unstyled d-flex flex-column">
+            <ul class="list-unstyled d-flex flex-column-reverse">
                 {% for task in tasks %}
                 <li class='task__item d-flex {{task.is_done|yesno:"task--done,"}}'>
                     <div class="item__check d-flex">
@@ -49,15 +65,17 @@
                         </a>
                     </div>
                     {% if not task.is_done %}
-                    <div class="item-actions d-flex">
-                        <a href={% url 'todo:finish' task_id=task.id %} class="btn btn-sm btn-primary d-flex mx-1 align-items-center" name="task-delete" formnovalidate=""
+                    <div class="item-actions d-flex flex-end">
+                        <a href={% url 'todo:finish' task_id=task.id %} class="btn btn-sm btn-primary d-flex mx-1
+                        align-items-center" name="task-delete" formnovalidate=""
                         type="submit">
-                            <img src={% static 'todo/done.png' %} alt="done" class="mr-1" width="16" height="16"> Done
+                        <img src={% static 'todo/done.png' %} alt="done" class="mr-1" width="16" height="16"> Done
                         </a>
 
-                        <a href={% url 'todo:delete' task_id=task.id %} class="btn btn-sm btn-danger d-flex mx-1 align-items-center" name="task-delete" formnovalidate=""
-                                    type="submit">
-                                <img src={% static 'todo/delete.gif' %} alt="delete" class="mr-1" width="16" height="16"> Delete
+                        <a href={% url 'todo:delete' task_id=task.id %} class="btn btn-sm btn-danger d-flex mx-1
+                        align-items-center" name="task-delete" formnovalidate=""
+                        type="submit">
+                        <img src={% static 'todo/delete.gif' %} alt="delete" class="mr-1" width="16" height="16"> Delete
                         </a>
                     </div>
                     {% endif %}
@@ -65,19 +83,19 @@
                 {% endfor %}
             </ul>
 
-
-
             {% if tasks %}
-            <div class="actions d-flex">
+            <div class="actions d-flex justify-content-center mt-5">
                 {% for task in tasks %}
-                    {% if task.is_done %}
-                        <a href={% url 'todo:deleteDone' %} class="btn btn-sm btn-primary d-flex mx-1 align-items-center" formnovalidate=""
-                        type="submit">
-                        Clear tasks done
-                        </a>
-                    {% endif %}
+                {% if task.is_done %}
+                <a href={% url 'todo:deleteDone' %} class="btn btn-sm btn-primary d-flex mx-1 align-items-center"
+                formnovalidate=""
+                type="submit">
+                Clear tasks done
+                </a>
+                {% endif %}
                 {% endfor %}
-                <a href={% url 'todo:deleteAll' %} class="btn btn-sm btn-danger d-flex mx-1 align-items-center" formnovalidate=""
+                <a href={% url 'todo:deleteAll' %} class="btn btn-sm btn-danger d-flex mx-1 align-items-center"
+                formnovalidate=""
                 type="submit">
                 Delete all tasks
                 </a>

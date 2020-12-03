@@ -3,7 +3,8 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
 from todo.models import Task
-from todo.forms import EditTaskForm
+from todo.forms import EditTaskForm, AddTaskForm
+from django.contrib import messages
 
 def index(request):
     # Query all tasks
@@ -13,18 +14,16 @@ def index(request):
 
     # Checking if the request method is a POST
     if request.method == "POST":
-        # Checking if there is a request to add a todo
-        if "task-add" in request.POST:
-            # Get the content
-            content = request.POST["task-content"]
-            # Init the todo
-            todo = Task(content=content, is_done=False)
-            # Save the todo
-            todo.save()
-            # Reload the page
+        form = AddTaskForm(request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('todo:index')
+        else:
+            messages.error(request, "Error")
+    else :
+        form = AddTaskForm()
 
-    return render(request, 'todo/index.html', {'tasks': tasks})
+    return render(request, 'todo/index.html', {'tasks': tasks, 'form': form})
 
 def edit(request, task_id):
     task = get_object_or_404(Task, id=task_id)
