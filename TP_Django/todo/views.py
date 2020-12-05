@@ -33,9 +33,10 @@ def edit(request, task_id):
         form = EditTaskForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            form.cleaned_data
-            todo = form.save(commit=False)
-            todo.save()
+            task.is_done = form.cleaned_data['is_done']
+            task.content = form.cleaned_data['content']
+            task.save()
+            return redirect('todo:index')
     else :
         form = EditTaskForm(initial={'content': task.content, 'is_done': task.is_done})
 
