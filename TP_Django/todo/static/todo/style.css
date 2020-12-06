@@ -1,9 +1,19 @@
 body {
-    background-color: lightseagreen;
     font-family: Karla;
+    background-color: #c7f5f3;
+
 }
 
-.heading h1 {
+.todo-header {
+    background-color: lightseagreen;
+    padding: 6rem 0;
+}
+
+.todo-add-form {
+    transform: translateY(-50%);
+}
+
+.header__title h1 {
     font-family: Rubik;
 }
 
@@ -29,6 +39,7 @@ body {
 
 .task--done {
     text-decoration: line-through;
+    opacity: 0.5;
 }
 
 .task__item .item__check {
@@ -37,3 +48,25 @@ body {
     margin-bottom: 10px;
     align-items: center;
 }
+
+.task__item .item-actions {
+    opacity: 0;
+    transition: all 0.3s ease-in;
+}
+
+.task__item:hover .item-actions {
+    opacity: 1;
+}
+.btn-primary {
+    color:#fff;
+    background-color: lightseagreen;
+    border-color: lightseagreen;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color:#fff;
+    background-color: #0b9890;
+    border-color: #0b9890;
+}
+

@@ -12,13 +12,31 @@
 </head>
 <body>
 <main>
-    <div class="container">
-        <div class="todo-wrapper p-5 mx-auto my-5 shadow-lg rounded">
-
-            <div class="heading text-center">
+    <div class="todo-header mx-auto">
+        <div class="container">
+            <div class="header__title text-center">
+                <div class="header__img">
+                    <img src={% static 'todo/illustration.png' %} width="400" alt="ToDo List App" class="my-2">
+                </div>
                 <h1>To-Do List</h1>
             </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="todo-wrapper todo-add-form px-4 py-3 mx-auto shadow-lg rounded">
+            <form method="POST" class="post-form add-items">
+                {% csrf_token %}
+                <div class="form-heading">
+                    <label for="content" class="d-block">Task Content :</label>
+                </div>
+                <div class="form-fields d-flex">
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary task-btn-add ml-3 d-flex align-items-center" name="task-add"><img src={% static 'todo/add.png' %} alt="add" class="mr-1" width="16" height="16"> Add</button>
+                </div>
+            </form>
+        </div>
 
+        <div class="todo-wrapper p-5 mx-auto mb-5 shadow-lg rounded">
             {% if messages %}
                 {% for message in messages %}
                 <div class="task-error alert alert-danger" role="alert">
@@ -42,68 +60,114 @@
                 {% endfor %}
             {% endif %}
 
-            <div class="add-form-wrapper my-5">
-                <form method="POST" class="post-form add-items" >
-                    {% csrf_token %}
-                    <div class="form-heading">
-                        <label for="content" class="d-block">Task Content :</label>
-                    </div>
-                    <div class="form-fields d-flex">
-                        {{ form }}
-                        <input type="submit" name="task-add" value="Add task" class="btn btn-primary task-btn-add ml-3">
-                    </div>
-                </form>
-            </div>
-
+            {% if tasks %}
             <ul class="list-unstyled d-flex flex-column-reverse">
                 {% for task in tasks %}
                 <li class='task__item d-flex {{task.is_done|yesno:"task--done,"}}'>
                     <div class="item__check d-flex">
-                        <!-- <input class="checkbox" type="checkbox"> -->
-                        <a href="{% url 'todo:edit' task.id %}">
-                            <p class="m0 p0">{{ task.content }}</p>
+                        {% if not task.is_done %}
+                        <a href={% url 'todo:finish' task_id=task.id %} class="btn btn-sm d-flex mx-1 align-items-center">
+                            <img src={% static 'todo/checkbox-empty.png' %} alt="done" class="mr-1" width="16" height="16">
                         </a>
+                        {% else %}
+                        <a href={% url 'todo:reactivate' task_id=task.id %} class="btn btn-sm d-flex mx-1 align-items-center">
+                            <img src={% static 'todo/checkbox-checked.png' %} alt="done" class="mr-1" width="16" height="16">
+                        </a>
+                        {% endif %}
+                        <p class="m-0 py-3">{{ task.content }}</p>
                     </div>
                     {% if not task.is_done %}
                     <div class="item-actions d-flex flex-end">
-                        <a href={% url 'todo:finish' task_id=task.id %} class="btn btn-sm btn-primary d-flex mx-1
-                        align-items-center" name="task-delete" formnovalidate=""
-                        type="submit">
-                        <img src={% static 'todo/done.png' %} alt="done" class="mr-1" width="16" height="16"> Done
+                        <a href={% url 'todo:edit' task_id=task.id %} class="btn btn-sm d-flex mx-1 align-items-center">
+                            <img src={% static 'todo/edit.png' %} alt="edit" width="16" height="16">
                         </a>
-
-                        <a href={% url 'todo:delete' task_id=task.id %} class="btn btn-sm btn-danger d-flex mx-1
-                        align-items-center" name="task-delete" formnovalidate=""
-                        type="submit">
-                        <img src={% static 'todo/delete.gif' %} alt="delete" class="mr-1" width="16" height="16"> Delete
+                        <a href={% url 'todo:delete' task_id=task.id %} class="btn btn-sm d-flex mx-1 align-items-center">
+                            <img src={% static 'todo/trash.png' %} alt="delete" class="mr-1" width="16" height="16">
                         </a>
                     </div>
                     {% endif %}
                 </li>
                 {% endfor %}
             </ul>
-
-            {% if tasks %}
-            <div class="actions d-flex justify-content-center mt-5">
-                {% for task in tasks %}
-                {% if task.is_done %}
-                <a href={% url 'todo:deleteDone' %} class="btn btn-sm btn-primary d-flex mx-1 align-items-center"
-                formnovalidate=""
-                type="submit">
-                Clear tasks done
-                </a>
-                {% endif %}
-                {% endfor %}
-                <a href={% url 'todo:deleteAll' %} class="btn btn-sm btn-danger d-flex mx-1 align-items-center"
-                formnovalidate=""
-                type="submit">
-                Delete all tasks
-                </a>
+            {% else %}
+            <div class="text-center">
+                <p><strong>Nothing to do. You can relax.</strong></p>
+                <img src={% static 'todo/relax.png' %} alt="relaxation" class="mt-5" width="400">
             </div>
             {% endif %}
+        </div>
 
+        {% if tasks %}
+        <div class="actions d-flex justify-content-center my-5">
+            {% for task in tasks %}
+            {% if task.is_done %}
+            <button type="button" class="btn btn-secondary mx-1" data-toggle="modal" data-target="#modal-clear-done">
+                <img src={% static 'todo/delete.png' %} alt="delete" class="mr-1" width="16" height="16">
+                Clear tasks done
+            </button>
+            {% endif %}
+            {% endfor %}
+
+            <button type="button" class="btn btn-danger mx-1" data-toggle="modal" data-target="#modal-clear-all">
+                <img src={% static 'todo/delete.png' %} alt="delete" class="mr-1" width="16" height="16">
+                Delete all tasks
+            </button>
+        </div>
+        {% endif %}
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modal-clear-done" tabindex="-1" role="dialog" aria-labelledby="modal-clear-done-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to remove permanently done
+                        tasks ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href={% url 'todo:deleteDone' %} class="btn btn-primary">
+                    Yes delete
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="modal fade" id="modal-clear-all" tabindex="-1" role="dialog" aria-labelledby="modal-clear-all-label"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you want to remove permanently all tasks
+                        ?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href={% url 'todo:deleteAll' %} class="btn btn-primary">
+                    Yes delete all
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </main>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>

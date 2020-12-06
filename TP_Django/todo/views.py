@@ -71,3 +71,12 @@ def finish(request, task_id):
     task.save()
     # Redirect to the index
     return redirect('todo:index')
+
+def reactivate(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    # Update field : is_done
+    task.is_done = False
+    # Save the todo
+    task.save()
+    # Redirect to the index
+    return redirect('todo:index')
