@@ -36,7 +36,7 @@
             </form>
         </div>
 
-        <div class="todo-wrapper p-5 mx-auto mb-5 shadow-lg rounded">
+        <div class="todo-wrapper p-3 mx-auto mb-5 shadow-lg rounded">
             {% if messages %}
                 {% for message in messages %}
                 <div class="task-error alert alert-danger" role="alert">
@@ -61,7 +61,7 @@
             {% endif %}
 
             {% if tasks %}
-            <ul class="list-unstyled d-flex flex-column-reverse">
+            <ul class="list-unstyled d-flex flex-column-reverse m-0">
                 {% for task in tasks %}
                 <li class='task__item d-flex {{task.is_done|yesno:"task--done,"}}'>
                     <div class="item__check d-flex">
@@ -91,7 +91,7 @@
             </ul>
             {% else %}
             <div class="text-center">
-                <p><strong>Nothing to do. You can relax.</strong></p>
+                <p class="py-5"><strong>Nothing to do. You can relax.</strong></p>
                 <img src={% static 'todo/relax.png' %} alt="relaxation" class="mt-5" width="400">
             </div>
             {% endif %}

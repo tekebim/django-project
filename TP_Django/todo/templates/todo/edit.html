@@ -13,28 +13,41 @@
 <body>
 <main>
     <div class="container">
-        <div class="todo-wrapper p-5 mx-auto my-5 shadow-lg rounded">
 
-            <div class="heading text-center">
-                <h1>Edit To-Do :</h1>
-            </div>
+        <div class="heading text-center my-5">
+            <h1>Edit To-Do :</h1>
+        </div>
 
+        <div class="todo-wrapper p-3 mx-auto my-3 shadow-lg rounded">
             {% if error_message %}
             <div class="task-error alert alert-danger" role="alert">
-                <p>Une erreur est survenur : <strong>{{ error_message }}</strong></p>
+                <p>Une erreur est survenue : <strong>{{ error_message }}</strong></p>
             </div>
             {% endif %}
 
-            <div class="add-form-wrapper my-5">
-                <p>ID : <strong>{{ task.id}}</strong></p>
+            <div class="text-right">
+                <p>Task ID : <strong>{{ task.id}}</strong></p>
+            </div>
+            <div class="add-form-wrapper">
                 <form method="POST" class="post-form">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <a href={% url 'todo:index' %} class="btn btn-sm btn-secondary" name="task-delete" formnovalidate=""
-                    type="submit">
-                    Cancel
-                    </a>
-                    <button type="submit" class="btn btn-primary btn-md">Save</button>
+                    <hr>
+                    <div class="form-group">
+                        <label for="content">Task content :</label>
+                        {{ form.content }}
+                    </div>
+                    <div class="form-group text-center">
+                        <label for="is-done">Task complete :</label>
+                        {{ form.is_done }}
+                    </div>
+
+                    <hr>
+                    <div class="text-center">
+                        <a href={% url 'todo:index' %} class="btn btn-md btn-secondary">
+                        Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary btn-md">Save</button>
+                    </div>
                 </form>
             </div>
         </div>

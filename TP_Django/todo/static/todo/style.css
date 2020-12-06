@@ -29,6 +29,10 @@ body {
     align-items: center;
 }
 
+.task__item:first-child{
+    border-bottom: none;
+}
+
 .task__item:hover {
     background-color: beige;
 }
@@ -57,6 +61,7 @@ body {
 .task__item:hover .item-actions {
     opacity: 1;
 }
+
 .btn-primary {
     color:#fff;
     background-color: lightseagreen;

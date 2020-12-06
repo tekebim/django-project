@@ -12,6 +12,9 @@ class AddTaskForm(forms.ModelForm):
 
 # Create the form class.
 class EditTaskForm(forms.ModelForm):
+    content = forms.CharField(required=True, max_length=200, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    is_done = forms.BooleanField(required=False)
+
     class Meta:
         model = Task
         fields = ['content', 'is_done']
